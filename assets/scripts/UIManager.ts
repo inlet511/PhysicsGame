@@ -23,6 +23,10 @@ export class UIManager extends Component {
         this.initLevelSelection();
     }
 
+    constructor(){ 
+        super();
+    }
+
     private initStartMenu(){
         if(this.startMenuPrefab)
         {        
@@ -65,8 +69,16 @@ export class UIManager extends Component {
         })
     }
 
-    toLevelSelection(){
+    toLevelSelection=()=>{
         this.showUI([UIType.LevelSelection]);
+    }
+
+    toStartMenu=()=>{
+        this.showUI([UIType.StartMenu]);
+    }
+
+    gotoLevel=(levelID:number)=>{
+        console.log(`Goto Level ${levelID}`);
     }
 
 }

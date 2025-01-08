@@ -1,5 +1,7 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Label, Node } from 'cc';
 import { UIBase } from './UIBase';
+import { Util } from '../utils/Utils';
+import { StaticInstance } from '../StaticInstance';
 const { ccclass, property } = _decorator;
 
 @ccclass('LevelSelection')
@@ -17,11 +19,54 @@ export class LevelSelection extends UIBase {
 
     show(){
         super.show();
+        if(this.levelsRoot!==null){
+            this.levelsRoot.children.forEach((node,index)=>{
+                const unloclLabel = node.children[1];
+                const labelComp = unloclLabel.getComponent(Label);
+                const level = index+1;
+                if(labelComp)
+                {
+                    labelComp.string = level<3 ? "已解锁":"未解锁";
+                }
+            });
+        }
     }
 
     init()
     {
+        const {TOUCH_START, TOUCH_END, TOUCH_CANCEL} = Node.EventType;
+
+        if(this.backButton!==null){
+            this.backButton.on(TOUCH_START, ()=>{
+                Util.clickDownTween(this.backButton);            
+            },this);
+
+            this.backButton.on(TOUCH_END, ()=>{
+                Util.clickUpTween(this.backButton, StaticInstance.uiManager?.toStartMenu);
+            },this);
+    
+            this.backButton.on(TOUCH_CANCEL, ()=>{
+                Util.clickUpTween(this.backButton);
+            },this);
+        }
+
+        if(this.levelsRoot!==null){
+            this.levelsRoot.children.forEach((node,index)=>{
+                const button = node.children[0];
+
+                button.on(TOUCH_START, ()=>{
+                    Util.clickDownTween(button);            
+                },this);
+    
+                button.on(TOUCH_END, ()=>{
+                    Util.clickUpTween(button, StaticInstance.uiManager?.gotoLevel,index+1);
+                },this);
         
+                button.on(TOUCH_CANCEL, ()=>{
+                    Util.clickUpTween(button);
+                },this);
+            });
+        }
     }
 }
 
