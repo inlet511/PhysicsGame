@@ -36,37 +36,38 @@ export class LevelSelection extends UIBase {
     {
         const {TOUCH_START, TOUCH_END, TOUCH_CANCEL} = Node.EventType;
 
-        if(this.backButton!==null){
-            this.backButton.on(TOUCH_START, ()=>{
-                Util.clickDownTween(this.backButton);            
-            },this);
+        const backButton = this.backButton as Node;
 
-            this.backButton.on(TOUCH_END, ()=>{
-                Util.clickUpTween(this.backButton, StaticInstance.uiManager?.toStartMenu);
-            },this);
-    
-            this.backButton.on(TOUCH_CANCEL, ()=>{
-                Util.clickUpTween(this.backButton);
-            },this);
-        }
+        backButton.on(TOUCH_START, ()=>{
+            Util.clickDownTween(this.backButton);            
+        },this);
 
-        if(this.levelsRoot!==null){
-            this.levelsRoot.children.forEach((node,index)=>{
-                const button = node.children[0];
+        backButton.on(TOUCH_END, ()=>{
+            Util.clickUpTween(this.backButton, StaticInstance.uiManager?.toStartMenu);
+        },this);
 
-                button.on(TOUCH_START, ()=>{
-                    Util.clickDownTween(button);            
-                },this);
-    
-                button.on(TOUCH_END, ()=>{
-                    Util.clickUpTween(button, StaticInstance.uiManager?.gotoLevel,index+1);
-                },this);
+        backButton.on(TOUCH_CANCEL, ()=>{
+            Util.clickUpTween(this.backButton);
+        },this);
         
-                button.on(TOUCH_CANCEL, ()=>{
-                    Util.clickUpTween(button);
-                },this);
-            });
-        }
+
+        const levelsRoot = this.levelsRoot as Node;
+
+        levelsRoot.children.forEach((node,index)=>{
+            const button = node.children[0];
+            button.on(TOUCH_START, ()=>{
+                Util.clickDownTween(button);            
+            },this);
+
+            button.on(TOUCH_END, ()=>{
+                Util.clickUpTween(button, StaticInstance.uiManager?.gotoLevel,index+1);
+            },this);
+
+            button.on(TOUCH_CANCEL, ()=>{
+                Util.clickUpTween(button);
+            },this);
+        });
+        
     }
 }
 
