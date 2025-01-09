@@ -105,7 +105,7 @@ export class ControlPanel extends UIBase {
         const clickDownButton = this.clickDownButton as Node;
         clickDownButton.on(TOUCH_START, ()=>{ 
             Util.clickDownTween(clickDownButton,()=>{
-                // TODO 传出左转
+                StaticInstance.uiManager?.activateFoodPhysics();
             });    
         },this);
 

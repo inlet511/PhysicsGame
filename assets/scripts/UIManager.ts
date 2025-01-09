@@ -61,6 +61,11 @@ export class UIManager extends Component {
     startGame=()=>{
         console.log("Start Game");
         this.showUI([UIType.ControlPanel]);
+        StaticInstance.gameManager!.startGame();
+    }
+
+    activateFoodPhysics(){
+        StaticInstance.gameManager!.activateFoodPhysics();
     }
 
     showUI(showTypes: UIType[]){
