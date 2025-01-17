@@ -5,6 +5,7 @@ import { UIBase } from './ui/UIBase';
 import { UIType } from './Enums';
 import { LevelSelection } from './ui/LevelSelection';
 import { ControlPanel } from './ui/ControlPanel';
+import { LevelInfo } from './ui/LevelInfo';
 const { ccclass, property } = _decorator;
 
 @ccclass('UIManager')
@@ -19,6 +20,9 @@ export class UIManager extends Component {
     @property(Prefab)
     ControlPanelPrefab: Prefab|null = null;
 
+    @property(Prefab)
+    LevelInfoPrefab:Prefab|null = null;
+
     private uiMap = new Map<UIType, UIBase>();
     
     protected onLoad(): void {
@@ -26,6 +30,7 @@ export class UIManager extends Component {
         this.initStartMenu();
         this.initLevelSelection();
         this.initControlPanel();
+        this.initLevelInfo();
     }
 
     constructor(){ 
@@ -58,9 +63,17 @@ export class UIManager extends Component {
         this.uiMap.set(UIType.ControlPanel, comp);
     }
 
+    private initLevelInfo(){
+        const node = instantiate(this.LevelInfoPrefab!);
+        this.node.addChild(node);
+        const comp = node.getComponent(LevelInfo)!;
+
+        this.uiMap.set(UIType.LevelInfo, comp);
+    }
+
     startGame=()=>{
         console.log("Start Game");
-        this.showUI([UIType.ControlPanel]);
+        this.showUI([UIType.ControlPanel,UIType.LevelInfo]);
         StaticInstance.gameManager!.startGame();
     }
 
