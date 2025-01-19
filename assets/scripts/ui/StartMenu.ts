@@ -50,7 +50,7 @@ export class StartMenu extends UIBase {
             },this);
 
             this.startButton.on(TOUCH_END, ()=>{
-                Util.clickUpTween(this.startButton, StaticInstance.uiManager?.startGame);
+                Util.clickUpTween(this.startButton, StaticInstance.uiManager?.startGame,1);
             });
     
             this.startButton.on(TOUCH_CANCEL, ()=>{

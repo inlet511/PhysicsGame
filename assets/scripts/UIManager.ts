@@ -71,10 +71,10 @@ export class UIManager extends Component {
         this.uiMap.set(UIType.LevelInfo, comp);
     }
 
-    startGame=()=>{
+    startGame=(levelID:number)=>{
         console.log("Start Game");
         this.showUI([UIType.ControlPanel,UIType.LevelInfo]);
-        StaticInstance.gameManager!.startGame();
+        StaticInstance.gameManager!.startGame(levelID);
     }
 
     activateFoodPhysics(){
@@ -101,7 +101,7 @@ export class UIManager extends Component {
 
     gotoLevel=(levelID:number)=>{
         console.log(`Goto Level ${levelID}`);
-        StaticInstance.uiManager!.startGame();
+        StaticInstance.uiManager!.startGame(levelID);
     }
 
     onRotateFood(angle:number){
@@ -110,6 +110,12 @@ export class UIManager extends Component {
 
     onMoveFood(deltaTime:number, direction:number){
         StaticInstance.gameManager!.onMoveFood(deltaTime, direction);
+    }
+
+    setLevelInfo(level:number, nowItem:number, allItem:number){
+        const levelInfo = this.uiMap.get(UIType.LevelInfo) as LevelInfo
+        levelInfo.setItemLabel(nowItem,allItem);
+        levelInfo.setLevelLabel(level)
     }
 
 }

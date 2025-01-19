@@ -12,6 +12,8 @@ export class LevelInfo extends UIBase {
     ItemLabel:Label|null = null;
 
     setLevelLabel(level:number){
+        const lvl2Str = ["一","二","三","四","五","六"]        
+
         this.LevelLabel!.string = `第 ${level} 关`;
     }
 
