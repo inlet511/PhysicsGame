@@ -1019,6 +1019,14 @@
       "__uuid__": "f2b3161a-0b97-4aee-ab84-0b68260bc933",
       "__expectedType__": "cc.Prefab"
     },
+    "WinPanelPrefab": {
+      "__uuid__": "dfa02b5b-7c6b-4ffa-bf8b-3b65ced4b53a",
+      "__expectedType__": "cc.Prefab"
+    },
+    "LosePanelPrefab": {
+      "__uuid__": "714c1b5d-f2ed-49cc-b9ae-57ceea8e0d60",
+      "__expectedType__": "cc.Prefab"
+    },
     "_id": "9fLWz3aWJPBaSyCocW0ASt"
   },
   {

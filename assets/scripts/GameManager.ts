@@ -36,6 +36,8 @@ export class GameManager extends Component {
     @property(SpriteFrame)
     closeEyeBowl:SpriteFrame|null = null;
 
+    bShouldUpdate:boolean = true;
+
 
     get currentFoodType():number{
         return GameConfig[this.context.level][this.context.count]
@@ -62,10 +64,25 @@ export class GameManager extends Component {
         PhysicsUtil.enablePhysicsSystem();
         console.log(`游戏开始， Level:${levelID}, 数据： ${GameConfig[levelID]}`)
         this.showBowl();
+
+        // 先清理所有children
+        this.clearFoods();
         
         this.context.level = levelID
         this.context.count = 0
         this.context.node = this.addFood(this.currentFoodType)
+        this.bShouldUpdate = true;
+    }
+
+
+    get canAddFood():boolean{
+        const total = GameConfig[this.context.level].length
+        const current = this.context.count
+        if(current>=total)
+        {
+            return false
+        }
+        return true
     }
 
     /**
@@ -144,23 +161,81 @@ export class GameManager extends Component {
         return true
     }
 
+
+    checkFall(){
+        let hasFall:boolean = false
+        for(let i = 0; i<this.foods!.children.length; i++)
+        {
+            const currentFood = this.foods?.children[i] as Node
+            if(currentFood.position.y < -800)
+            {
+                currentFood.destroy();
+                hasFall = true
+                break
+            }
+        }
+
+        if(hasFall)
+        {
+            this.bFalling = false
+            console.log("game lose")
+            StaticInstance.uiManager?.showLosePanel();
+            this.bShouldUpdate = false;
+        }
+    }
+
     checkAllBody(){
-        console.log(`All Stopped: ${this.AllBodyStop}`)
         if(this.AllBodyStop)
         {
-            this.context.node = this.addFood(this.currentFoodType)
-            this.bFalling = false
+            if(this.canAddFood)
+            {
+                this.context.node = this.addFood(this.currentFoodType)
+                this.bFalling = false
+            }else
+            {
+                StaticInstance.uiManager?.showWinPanel();
+            }
         }
     }
 
     protected update(dt: number): void {
+        if(!this.bShouldUpdate)
+            return;
+
         this.time += dt;
         if(this.bFalling && this.time > this.checkCD)
         {            
             this.time = 0
             this.checkAllBody()
+            this.checkFall()
         }
     }
+
+
+    clearFoods()
+    {
+        this.foods?.removeAllChildren();
+    }
+
+    backToMain = ()=>
+    {
+        this.context.level = 0
+        this.clearFoods();
+        this.hideBowl();
+    }
+
+    nextLevel= ()=>
+    {
+        this.context.level += 1
+        console.log(this.context.level)
+        StaticInstance.uiManager?.startGame(this.context.level)
+    }
+
+    retry= ()=>
+    {
+        StaticInstance.uiManager?.startGame(this.context.level)
+    }
+
 }
 
 

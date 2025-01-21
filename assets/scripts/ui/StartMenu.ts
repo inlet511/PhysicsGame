@@ -1,4 +1,4 @@
-import { _decorator, Component, Input, Node, Tween, tween, Vec3 } from 'cc';
+import { _decorator, Component, Input, Node, SystemEvent, Tween, tween, Vec3 } from 'cc';
 import { UIBase } from './UIBase';
 import {Util} from '../utils/Utils';
 import { UIManager } from '../UIManager';
@@ -42,35 +42,38 @@ export class StartMenu extends UIBase {
             .to(1,{angle:0})
         ).start();
 
-        const {TOUCH_START, TOUCH_END, TOUCH_CANCEL} = Input.EventType;
+        const {TOUCH_START, TOUCH_END, TOUCH_CANCEL} = SystemEvent.EventType;
 
-        if(this.startButton!==null){
-            this.startButton.on(TOUCH_START, ()=>{
-                Util.clickDownTween(this.startButton);            
-            },this);
+        const startButton = this.startButton as Node;
 
-            this.startButton.on(TOUCH_END, ()=>{
-                Util.clickUpTween(this.startButton, StaticInstance.uiManager?.startGame,1);
-            });
-    
-            this.startButton.on(TOUCH_CANCEL, ()=>{
-                Util.clickUpTween(this.startButton);
-            });
-        }
 
-        if(this.levelSelection!==null){    
-            this.levelSelection.on(TOUCH_START, ()=>{
-                Util.clickDownTween(this.levelSelection);
-            });
+        startButton.on(TOUCH_START, ()=>{
+            Util.clickDownTween(startButton);            
+        },this);
+
+        startButton.on(TOUCH_END, ()=>{
+            Util.clickUpTween(startButton, StaticInstance.uiManager?.startGame,0);
+        },this);
+
+        startButton.on(TOUCH_CANCEL, ()=>{
+            Util.clickUpTween(startButton);
+        },this);
     
-            this.levelSelection.on(TOUCH_END, ()=>{
-                Util.clickUpTween(this.levelSelection, StaticInstance.uiManager?.toLevelSelection);
-            });
+        const levelSelection = this.levelSelection as Node;
+
     
-            this.levelSelection.on(TOUCH_CANCEL, ()=>{
-                Util.clickUpTween(this.levelSelection);
-            });
-        }        
+        levelSelection.on(TOUCH_START, ()=>{
+            Util.clickDownTween(levelSelection);
+        },this);
+
+        levelSelection.on(TOUCH_END, ()=>{
+            Util.clickUpTween(levelSelection, StaticInstance.uiManager?.toLevelSelection);
+        },this);
+
+        levelSelection.on(TOUCH_CANCEL, ()=>{
+            Util.clickUpTween(levelSelection);
+        },this);
+           
     }
 }
 

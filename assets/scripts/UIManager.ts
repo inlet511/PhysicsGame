@@ -6,6 +6,8 @@ import { UIType } from './Enums';
 import { LevelSelection } from './ui/LevelSelection';
 import { ControlPanel } from './ui/ControlPanel';
 import { LevelInfo } from './ui/LevelInfo';
+import { WinPanel } from './ui/WinPanel';
+import { LosePanel } from './ui/LosePanel';
 const { ccclass, property } = _decorator;
 
 @ccclass('UIManager')
@@ -23,6 +25,12 @@ export class UIManager extends Component {
     @property(Prefab)
     LevelInfoPrefab:Prefab|null = null;
 
+    @property(Prefab)
+    WinPanelPrefab:Prefab|null = null;
+
+    @property(Prefab)
+    LosePanelPrefab:Prefab|null = null;
+
     private uiMap = new Map<UIType, UIBase>();
     
     protected onLoad(): void {
@@ -31,6 +39,8 @@ export class UIManager extends Component {
         this.initLevelSelection();
         this.initControlPanel();
         this.initLevelInfo();
+        this.initWinPanel();
+        this.initLosePanel();
     }
 
     constructor(){ 
@@ -71,8 +81,22 @@ export class UIManager extends Component {
         this.uiMap.set(UIType.LevelInfo, comp);
     }
 
+    private initWinPanel(){
+        const node = instantiate(this.WinPanelPrefab!);
+        this.node.addChild(node);
+        const comp = node.getComponent(WinPanel)!;
+        this.uiMap.set(UIType.WinPanel, comp);
+    }
+
+    private initLosePanel(){
+        const node = instantiate(this.LosePanelPrefab!);
+        this.node.addChild(node);
+        const comp = node.getComponent(LosePanel)!;
+        this.uiMap.set(UIType.LosePanel, comp);
+    }
+
     startGame=(levelID:number)=>{
-        console.log("Start Game");
+        console.log(`Start Game, levelID: ${levelID}`);
         this.showUI([UIType.ControlPanel,UIType.LevelInfo]);
         StaticInstance.gameManager!.startGame(levelID);
     }
@@ -89,6 +113,18 @@ export class UIManager extends Component {
                 ui.hide();
             }
         })
+    }
+
+    showWinPanel(){
+        const winPanel = this.uiMap.get(UIType.WinPanel) as WinPanel
+        winPanel.init();
+        this.showUI([UIType.WinPanel]);
+    }
+
+    showLosePanel(){
+        const losePanel = this.uiMap.get(UIType.LosePanel) as LosePanel
+        losePanel.init();
+        this.showUI([UIType.LosePanel]);
     }
 
     toLevelSelection=()=>{
@@ -116,6 +152,23 @@ export class UIManager extends Component {
         const levelInfo = this.uiMap.get(UIType.LevelInfo) as LevelInfo
         levelInfo.setItemLabel(nowItem,allItem);
         levelInfo.setLevelLabel(level)
+    }
+
+    backToMainClicked = ()=>
+    {
+        this.showUI([UIType.StartMenu]);
+        StaticInstance.gameManager?.backToMain();
+    }
+
+    nextLevelClicked = ()=>
+    {
+        console.log("next Level Clicked");
+        StaticInstance.gameManager?.nextLevel();
+    }
+
+    retryClicked = ()=>
+    {
+        StaticInstance.gameManager?.retry();
     }
 
 }

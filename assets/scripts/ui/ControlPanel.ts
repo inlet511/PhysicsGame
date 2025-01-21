@@ -1,4 +1,4 @@
-import { _decorator, Component, Input, Node ,EventTouch, UITransform, Vec3, misc, Vec2, math} from 'cc';
+import { _decorator, Component, Input, Node ,EventTouch, UITransform, Vec3, misc, Vec2, math, SystemEvent} from 'cc';
 import { UIBase } from './UIBase';
 import { Util } from '../utils/Utils';
 import { StaticInstance } from '../StaticInstance';
@@ -30,7 +30,7 @@ export class ControlPanel extends UIBase {
     }
 
     init(){
-        const {TOUCH_START, TOUCH_MOVE, TOUCH_END, TOUCH_CANCEL} = Input.EventType;
+        const {TOUCH_START, TOUCH_MOVE, TOUCH_END, TOUCH_CANCEL} = SystemEvent.EventType;
 
         // 类型断言
         const panelBG = this.panelBG as Node;
