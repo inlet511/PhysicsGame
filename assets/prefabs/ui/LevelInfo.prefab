@@ -89,7 +89,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -279.362,
+      "x": -177.265,
       "y": 594.554,
       "z": 0
     },
@@ -169,7 +169,7 @@
     "_string": "第三关",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 49,
+    "_actualFontSize": 41,
     "_fontSize": 40,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -248,7 +248,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -288.525,
+      "x": -186.428,
       "y": 529.792,
       "z": 0
     },
@@ -328,7 +328,7 @@
     "_string": "2/3",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 49,
+    "_actualFontSize": 41,
     "_fontSize": 40,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -446,6 +446,7 @@
       "__id__": 0
     },
     "fileId": "88OKL//05CdbvG0otFwA3l",
+    "instance": null,
     "targetOverrides": []
   }
 ]

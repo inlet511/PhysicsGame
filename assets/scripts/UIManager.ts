@@ -96,7 +96,6 @@ export class UIManager extends Component {
     }
 
     startGame=(levelID:number)=>{
-        console.log(`Start Game, levelID: ${levelID}`);
         this.showUI([UIType.ControlPanel,UIType.LevelInfo]);
         StaticInstance.gameManager!.startGame(levelID);
     }
@@ -162,7 +161,6 @@ export class UIManager extends Component {
 
     nextLevelClicked = ()=>
     {
-        console.log("next Level Clicked");
         StaticInstance.gameManager?.nextLevel();
     }
 

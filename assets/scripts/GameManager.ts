@@ -57,7 +57,6 @@ export class GameManager extends Component {
     protected onLoad(): void {
         StaticInstance.setGameManager(this);
         PhysicsUtil.disablePhysicsSystem();
-        console.log(GameConfig)
     }
 
     startGame(levelID:number) {
@@ -71,7 +70,7 @@ export class GameManager extends Component {
         this.context.level = levelID
         this.context.count = 0
         this.context.node = this.addFood(this.currentFoodType)
-        this.bShouldUpdate = true;
+        this.bShouldUpdate = false;
     }
 
 
@@ -125,13 +124,15 @@ export class GameManager extends Component {
     }
 
     activateFoodPhysics=()=>{
-        if(!this.context.node)  return;
+        if(!this.context.node)  return;        
 
         // 启用动态
         PhysicsUtil.setRigidBodyDynamic(this.context.node);
 
         // 设置初始速度
         PhysicsUtil.setRigidBodyV(this.context.node, new Vec2(0, -5));
+
+        this.bShouldUpdate = true;
 
         this.bFalling = true;
     }
@@ -163,19 +164,19 @@ export class GameManager extends Component {
 
 
     checkFall(){
-        let hasFall:boolean = false
+        let bOutBoundary:boolean = false
         for(let i = 0; i<this.foods!.children.length; i++)
         {
             const currentFood = this.foods?.children[i] as Node
             if(currentFood.position.y < -800)
             {
                 currentFood.destroy();
-                hasFall = true
+                bOutBoundary = true
                 break
             }
         }
 
-        if(hasFall)
+        if(bOutBoundary)
         {
             this.bFalling = false
             console.log("game lose")
@@ -194,6 +195,7 @@ export class GameManager extends Component {
             }else
             {
                 StaticInstance.uiManager?.showWinPanel();
+                this.bShouldUpdate = false;
             }
         }
     }
@@ -226,8 +228,7 @@ export class GameManager extends Component {
 
     nextLevel= ()=>
     {
-        this.context.level += 1
-        console.log(this.context.level)
+        this.context.level += 1;
         StaticInstance.uiManager?.startGame(this.context.level)
     }
 

@@ -34,22 +34,21 @@ export class WinPanel extends UIBase {
             Util.clickUpTween(backToMainBtn);
         },this);
     
-        const nextLevelBtn = this.nextLevelBtn as Node;
+        const nextLevelBtn = this.nextLevelBtn as Node;    
 
-    
         nextLevelBtn.on(TOUCH_START, ()=>{
             Util.clickDownTween(nextLevelBtn);
         },this);
 
-        nextLevelBtn.on(TOUCH_END, (event:SystemEvent.EventType)=>{
-            console.log("Next Level Touch End!!!!");
-            Util.clickUpTween(nextLevelBtn, StaticInstance.uiManager?.nextLevelClicked);            
-        },this);
+        nextLevelBtn.on(TOUCH_END, this.onNextLevelTouchEnd, this);
 
         nextLevelBtn.on(TOUCH_CANCEL, ()=>{
             Util.clickUpTween(nextLevelBtn);
-        },this);
-               
+        },this);               
+    }
+
+    onNextLevelTouchEnd(event:SystemEvent.EventType){
+        Util.clickUpTween(this.nextLevelBtn, StaticInstance.uiManager?.nextLevelClicked);    
     }
 }
 
